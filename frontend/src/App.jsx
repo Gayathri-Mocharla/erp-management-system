@@ -7,6 +7,8 @@ import {
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import Employees from "./pages/Employees";
+import Inventory from "./pages/Inventory";
 
 function App() {
 
@@ -29,6 +31,16 @@ function App() {
         <Route
           path="/dashboard"
           element={<Dashboard />}
+        />
+
+        <Route
+          path="/employees"
+          element={<Employees />}
+        />
+
+        <Route
+          path="/inventory"
+          element={<Inventory />}
         />
 
       </Routes>

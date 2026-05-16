@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const productRoutes = require("./routes/productRoutes");
+const employeeRoutes = require("./routes/employeeRoutes");
 
 require("dotenv").config();
 
@@ -8,7 +10,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+app.use("/api/products", productRoutes);
+app.use("/api/employees", employeeRoutes);
 // ROUTES
 
 const authRoutes = require("./routes/authRoutes");
