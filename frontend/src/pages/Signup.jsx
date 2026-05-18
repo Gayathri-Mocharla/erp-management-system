@@ -23,7 +23,7 @@ function Signup() {
 
             await axios.post(
 
-                "http://localhost:5000/api/auth/signup",
+                "https://erp-management-system-v04d.onrender.com/api/auth/signup",
 
                 {
                     username,

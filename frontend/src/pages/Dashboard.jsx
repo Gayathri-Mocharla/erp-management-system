@@ -24,7 +24,7 @@ function Dashboard() {
             // EMPLOYEES
 
             const employeeResponse = await axios.get(
-                "http://localhost:5000/api/employees"
+                "https://erp-management-system-v04d.onrender.com/api/employees"
             );
 
             setEmployeeCount(
@@ -34,7 +34,7 @@ function Dashboard() {
             // PRODUCTS
 
             const productResponse = await axios.get(
-                "http://localhost:5000/api/products"
+                "https://erp-management-system-v04d.onrender.com/api/products"
             );
 
             setProductCount(
@@ -44,7 +44,7 @@ function Dashboard() {
             // SALES
 
             const salesResponse = await axios.get(
-                "http://localhost:5000/api/sales"
+                "https://erp-management-system-v04d.onrender.com/api/sales"
             );
 
             const totalRevenue = salesResponse.data.reduce(

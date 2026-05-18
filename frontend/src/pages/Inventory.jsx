@@ -21,7 +21,7 @@ const navigate = useNavigate();
 
             const response = await axios.get(
 
-                "http://localhost:5000/api/products"
+                "https://erp-management-system-v04d.onrender.com/api/products"
 
             );
 
@@ -46,7 +46,7 @@ const navigate = useNavigate();
 
             await axios.post(
 
-                "http://localhost:5000/api/products/add",
+                "https://erp-management-system-v04d.onrender.com/api/products/add",
 
                 {
                     name,
@@ -85,7 +85,7 @@ const navigate = useNavigate();
 
             await axios.delete(
 
-                `http://localhost:5000/api/products/${id}`
+                `https://erp-management-system-v04d.onrender.com/api/products/${id}`
 
             );
 

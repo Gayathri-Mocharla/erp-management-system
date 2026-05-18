@@ -24,7 +24,7 @@ function Reports() {
             // EMPLOYEES
 
             const employeeResponse = await axios.get(
-                "http://localhost:5000/api/employees"
+                "https://erp-management-system-v04d.onrender.com/api/employees"
             );
 
             setEmployees(employeeResponse.data);
@@ -32,7 +32,7 @@ function Reports() {
             // PRODUCTS
 
             const productResponse = await axios.get(
-                "http://localhost:5000/api/products"
+                "https://erp-management-system-v04d.onrender.com/api/products"
             );
 
             setProducts(productResponse.data);
@@ -40,7 +40,7 @@ function Reports() {
             // SALES
 
             const salesResponse = await axios.get(
-                "http://localhost:5000/api/sales"
+                "https://erp-management-system-v04d.onrender.com/api/sales"
             );
 
             setSales(salesResponse.data);
