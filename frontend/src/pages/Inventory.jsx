@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 function Inventory() {
 
     const [name, setName] = useState("");
@@ -11,7 +11,7 @@ function Inventory() {
     const [price, setPrice] = useState("");
 
     const [products, setProducts] = useState([]);
-
+const navigate = useNavigate();
 
     // FETCH PRODUCTS
 
@@ -142,15 +142,91 @@ function Inventory() {
                     }}
                 >
 
-                    <h3>📊 Dashboard</h3>
+                    <h3
+    onClick={() => navigate("/dashboard")}
+    style={{ cursor: "pointer" }}
+>
+    📊 Dashboard
+</h3>
 
-                    <h3>👨‍💼 Employees</h3>
+<h3
+    onClick={() => navigate("/employees")}
+    style={{ cursor: "pointer" }}
+>
+    👨‍💼 Employees
+</h3>
 
-                    <h3>📦 Inventory</h3>
+<h3
+    onClick={() => navigate("/inventory")}
+    style={{ cursor: "pointer" }}
+>
+    📦 Inventory
+</h3>
 
-                    <h3>💰 Sales</h3>
+<h3
+    onClick={() => navigate("/sales")}
+    style={{ cursor: "pointer" }}
+>
+    💰 Sales
+</h3>
 
-                    <h3>📑 Reports</h3>
+<h3
+    onClick={() => navigate("/reports")}
+    style={{ cursor: "pointer" }}
+>
+    📑 Reports
+</h3>
+{/* LOGOUT */}
+
+    <div
+    style={{
+        marginTop: "40px"
+    }}
+>
+
+    <button
+        onClick={() => {
+
+            localStorage.removeItem("token");
+
+            navigate("/");
+
+        }}
+        style={{
+            width: "100%",
+            padding: "14px",
+            background: "linear-gradient(to right, #ffffff, #ffe6f0)",
+            color: "#ff4d94",
+            border: "none",
+            borderRadius: "14px",
+            fontSize: "18px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+            transition: "0.3s"
+        }}
+        onMouseOver={(e) => {
+
+            e.target.style.background =
+                "linear-gradient(to right, #ff4d94, #ff80b3)";
+
+            e.target.style.color = "white";
+
+        }}
+        onMouseOut={(e) => {
+
+            e.target.style.background =
+                "linear-gradient(to right, #ffffff, #ffe6f0)";
+
+            e.target.style.color = "#ff4d94";
+
+        }}
+    >
+        🚪 Logout
+    </button>
+
+</div>
+
 
                 </div>
 

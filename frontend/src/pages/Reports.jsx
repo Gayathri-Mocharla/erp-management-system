@@ -4,20 +4,20 @@ import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 
-function Dashboard() {
+function Reports() {
 
     const navigate = useNavigate();
 
-    const [employeeCount, setEmployeeCount] = useState(0);
+    const [employees, setEmployees] = useState([]);
 
-    const [productCount, setProductCount] = useState(0);
+    const [products, setProducts] = useState([]);
 
-    const [salesTotal, setSalesTotal] = useState(0);
+    const [sales, setSales] = useState([]);
+
+    const [totalRevenue, setTotalRevenue] = useState(0);
 
 
-    // FETCH DASHBOARD DATA
-
-    const fetchDashboardData = async () => {
+    const fetchReports = async () => {
 
         try {
 
@@ -27,9 +27,7 @@ function Dashboard() {
                 "http://localhost:5000/api/employees"
             );
 
-            setEmployeeCount(
-                employeeResponse.data.length
-            );
+            setEmployees(employeeResponse.data);
 
             // PRODUCTS
 
@@ -37,9 +35,7 @@ function Dashboard() {
                 "http://localhost:5000/api/products"
             );
 
-            setProductCount(
-                productResponse.data.length
-            );
+            setProducts(productResponse.data);
 
             // SALES
 
@@ -47,7 +43,9 @@ function Dashboard() {
                 "http://localhost:5000/api/sales"
             );
 
-            const totalRevenue = salesResponse.data.reduce(
+            setSales(salesResponse.data);
+
+            const revenue = salesResponse.data.reduce(
 
                 (total, sale) => total + sale.totalAmount,
 
@@ -55,7 +53,7 @@ function Dashboard() {
 
             );
 
-            setSalesTotal(totalRevenue);
+            setTotalRevenue(revenue);
 
         }
 
@@ -70,7 +68,7 @@ function Dashboard() {
 
     useEffect(() => {
 
-        fetchDashboardData();
+        fetchReports();
 
     }, []);
 
@@ -109,6 +107,7 @@ function Dashboard() {
                 >
 
                     <h3
+                        onClick={() => navigate("/dashboard")}
                         style={{
                             cursor: "pointer"
                         }}
@@ -116,36 +115,42 @@ function Dashboard() {
                         📊 Dashboard
                     </h3>
 
-                    
+                    <h3
+                        onClick={() => navigate("/employees")}
+                        style={{
+                            cursor: "pointer"
+                        }}
+                    >
+                        👨‍💼 Employees
+                    </h3>
 
-<h3
-    onClick={() => navigate("/employees")}
-    style={{ cursor: "pointer" }}
->
-    👨‍💼 Employees
-</h3>
+                    <h3
+                        onClick={() => navigate("/inventory")}
+                        style={{
+                            cursor: "pointer"
+                        }}
+                    >
+                        📦 Inventory
+                    </h3>
 
-<h3
-    onClick={() => navigate("/inventory")}
-    style={{ cursor: "pointer" }}
->
-    📦 Inventory
-</h3>
+                    <h3
+                        onClick={() => navigate("/sales")}
+                        style={{
+                            cursor: "pointer"
+                        }}
+                    >
+                        💰 Sales
+                    </h3>
 
-<h3
-    onClick={() => navigate("/sales")}
-    style={{ cursor: "pointer" }}
->
-    💰 Sales
-</h3>
-
-<h3
-    onClick={() => navigate("/reports")}
-    style={{ cursor: "pointer" }}
->
-    📑 Reports
-</h3>
-{/* LOGOUT */}
+                    <h3
+                        onClick={() => navigate("/reports")}
+                        style={{
+                            cursor: "pointer"
+                        }}
+                    >
+                        📑 Reports
+                    </h3>
+                    {/* LOGOUT */}
 
     <div
     style={{
@@ -195,7 +200,7 @@ function Dashboard() {
     </button>
 
 </div>
-                 
+
 
                 </div>
 
@@ -206,44 +211,35 @@ function Dashboard() {
             <div
                 style={{
                     flex: 1,
-                    padding: "40px",
-                    overflowY: "auto"
+                    overflowY: "auto",
+                    padding: "40px"
                 }}
             >
 
                 <h1
                     style={{
-                        color: "#ff4d94"
+                        color: "#ff4d94",
+                        marginBottom: "30px"
                     }}
                 >
-                    Welcome Gayathri 👋
+                    ERP Reports & Analytics
                 </h1>
 
-                <p
-                    style={{
-                        color: "gray"
-                    }}
-                >
-                    ERP Dashboard Overview
-                </p>
-
-                {/* DASHBOARD CARDS */}
+                {/* REPORT CARDS */}
 
                 <div
                     style={{
                         display: "flex",
                         gap: "20px",
-                        marginTop: "40px",
-                        flexWrap: "wrap"
+                        flexWrap: "wrap",
+                        marginBottom: "40px"
                     }}
                 >
-
-                    {/* EMPLOYEES */}
 
                     <div
                         style={{
                             backgroundColor: "white",
-                            width: "220px",
+                            width: "250px",
                             padding: "30px",
                             borderRadius: "20px",
                             boxShadow: "0px 4px 15px rgba(0,0,0,0.1)"
@@ -256,19 +252,17 @@ function Dashboard() {
                                 fontSize: "40px"
                             }}
                         >
-                            {employeeCount}
+                            {employees.length}
                         </h2>
 
                         <p>Total Employees</p>
 
                     </div>
 
-                    {/* PRODUCTS */}
-
                     <div
                         style={{
                             backgroundColor: "white",
-                            width: "220px",
+                            width: "250px",
                             padding: "30px",
                             borderRadius: "20px",
                             boxShadow: "0px 4px 15px rgba(0,0,0,0.1)"
@@ -281,19 +275,17 @@ function Dashboard() {
                                 fontSize: "40px"
                             }}
                         >
-                            {productCount}
+                            {products.length}
                         </h2>
 
                         <p>Total Products</p>
 
                     </div>
 
-                    {/* SALES */}
-
                     <div
                         style={{
                             backgroundColor: "white",
-                            width: "220px",
+                            width: "250px",
                             padding: "30px",
                             borderRadius: "20px",
                             boxShadow: "0px 4px 15px rgba(0,0,0,0.1)"
@@ -303,10 +295,10 @@ function Dashboard() {
                         <h2
                             style={{
                                 color: "#ff4d94",
-                                fontSize: "40px"
+                                fontSize: "35px"
                             }}
                         >
-                            ₹{salesTotal}
+                            ₹{totalRevenue}
                         </h2>
 
                         <p>Total Revenue</p>
@@ -315,11 +307,10 @@ function Dashboard() {
 
                 </div>
 
-                {/* RECENT ACTIVITY */}
+                {/* SALES TABLE */}
 
                 <div
                     style={{
-                        marginTop: "50px",
                         backgroundColor: "white",
                         padding: "30px",
                         borderRadius: "20px",
@@ -333,14 +324,77 @@ function Dashboard() {
                             marginBottom: "20px"
                         }}
                     >
-                        Recent Activity
+                        Sales Report
                     </h2>
 
-                    <p>✔ Employees managed successfully</p>
+                    <table
+                        style={{
+                            width: "100%",
+                            borderCollapse: "collapse"
+                        }}
+                    >
 
-                    <p>✔ Inventory updated dynamically</p>
+                        <thead>
 
-                    <p>✔ Sales records stored in MongoDB</p>
+                            <tr
+                                style={{
+                                    backgroundColor: "#ffe6f0"
+                                }}
+                            >
+
+                                <th style={{ padding: "15px" }}>
+                                    Customer
+                                </th>
+
+                                <th style={{ padding: "15px" }}>
+                                    Product
+                                </th>
+
+                                <th style={{ padding: "15px" }}>
+                                    Quantity
+                                </th>
+
+                                <th style={{ padding: "15px" }}>
+                                    Revenue
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {
+
+                                sales.map((sale) => (
+
+                                    <tr key={sale._id}>
+
+                                        <td style={{ padding: "15px" }}>
+                                            {sale.customerName}
+                                        </td>
+
+                                        <td style={{ padding: "15px" }}>
+                                            {sale.productName}
+                                        </td>
+
+                                        <td style={{ padding: "15px" }}>
+                                            {sale.quantity}
+                                        </td>
+
+                                        <td style={{ padding: "15px" }}>
+                                            ₹{sale.totalAmount}
+                                        </td>
+
+                                    </tr>
+
+                                ))
+
+                            }
+
+                        </tbody>
+
+                    </table>
 
                 </div>
 
@@ -352,4 +406,4 @@ function Dashboard() {
 
 }
 
-export default Dashboard;
+export default Reports;

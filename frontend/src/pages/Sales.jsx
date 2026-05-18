@@ -2,30 +2,32 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Employees() {
+function Sales() {
 
-    const [name, setName] = useState("");
+    const [customerName, setCustomerName] = useState("");
 
-    const [email, setEmail] = useState("");
+    const [productName, setProductName] = useState("");
 
-    const [position, setPosition] = useState("");
+    const [quantity, setQuantity] = useState("");
 
-    const [employees, setEmployees] = useState([]);
+    const [totalAmount, setTotalAmount] = useState("");
+
+    const [sales, setSales] = useState([]);
 const navigate = useNavigate();
 
-    // FETCH EMPLOYEES
+    // FETCH SALES
 
-    const fetchEmployees = async () => {
+    const fetchSales = async () => {
 
         try {
 
             const response = await axios.get(
 
-                "http://localhost:5000/api/employees"
+                "http://localhost:5000/api/sales"
 
             );
 
-            setEmployees(response.data);
+            setSales(response.data);
 
         }
 
@@ -38,33 +40,36 @@ const navigate = useNavigate();
     };
 
 
-    // ADD EMPLOYEE
+    // ADD SALE
 
-    const addEmployee = async () => {
+    const addSale = async () => {
 
         try {
 
             await axios.post(
 
-                "http://localhost:5000/api/employees/add",
+                "http://localhost:5000/api/sales/add",
 
                 {
-                    name,
-                    email,
-                    position
+                    customerName,
+                    productName,
+                    quantity,
+                    totalAmount
                 }
 
             );
 
-            alert("Employee Added");
+            alert("Sale Added");
 
-            setName("");
+            setCustomerName("");
 
-            setEmail("");
+            setProductName("");
 
-            setPosition("");
+            setQuantity("");
 
-            fetchEmployees();
+            setTotalAmount("");
+
+            fetchSales();
 
         }
 
@@ -77,19 +82,19 @@ const navigate = useNavigate();
     };
 
 
-    // DELETE EMPLOYEE
+    // DELETE SALE
 
-    const deleteEmployee = async (id) => {
+    const deleteSale = async (id) => {
 
         try {
 
             await axios.delete(
 
-                `http://localhost:5000/api/employees/${id}`
+                `http://localhost:5000/api/sales/${id}`
 
             );
 
-            fetchEmployees();
+            fetchSales();
 
         }
 
@@ -104,7 +109,7 @@ const navigate = useNavigate();
 
     useEffect(() => {
 
-        fetchEmployees();
+        fetchSales();
 
     }, []);
 
@@ -248,7 +253,7 @@ const navigate = useNavigate();
                         marginBottom: "30px"
                     }}
                 >
-                    Employee Management
+                    Sales Management
                 </h1>
 
                 {/* FORM */}
@@ -269,28 +274,14 @@ const navigate = useNavigate();
                             marginBottom: "20px"
                         }}
                     >
-                        Add Employee
+                        Add Sale
                     </h2>
 
                     <input
                         type="text"
-                        placeholder="Employee Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        style={{
-                            width: "100%",
-                            padding: "15px",
-                            marginBottom: "20px",
-                            borderRadius: "10px",
-                            border: "1px solid #ffb3cc"
-                        }}
-                    />
-
-                    <input
-                        type="email"
-                        placeholder="Employee Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Customer Name"
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
                         style={{
                             width: "100%",
                             padding: "15px",
@@ -302,9 +293,37 @@ const navigate = useNavigate();
 
                     <input
                         type="text"
-                        placeholder="Employee Position"
-                        value={position}
-                        onChange={(e) => setPosition(e.target.value)}
+                        placeholder="Product Name"
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
+                        style={{
+                            width: "100%",
+                            padding: "15px",
+                            marginBottom: "20px",
+                            borderRadius: "10px",
+                            border: "1px solid #ffb3cc"
+                        }}
+                    />
+
+                    <input
+                        type="number"
+                        placeholder="Quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                        style={{
+                            width: "100%",
+                            padding: "15px",
+                            marginBottom: "20px",
+                            borderRadius: "10px",
+                            border: "1px solid #ffb3cc"
+                        }}
+                    />
+
+                    <input
+                        type="number"
+                        placeholder="Total Amount"
+                        value={totalAmount}
+                        onChange={(e) => setTotalAmount(e.target.value)}
                         style={{
                             width: "100%",
                             padding: "15px",
@@ -315,7 +334,7 @@ const navigate = useNavigate();
                     />
 
                     <button
-                        onClick={addEmployee}
+                        onClick={addSale}
                         style={{
                             width: "100%",
                             padding: "15px",
@@ -327,7 +346,7 @@ const navigate = useNavigate();
                             cursor: "pointer"
                         }}
                     >
-                        Add Employee
+                        Add Sale
                     </button>
 
                 </div>
@@ -349,7 +368,7 @@ const navigate = useNavigate();
                             marginBottom: "20px"
                         }}
                     >
-                        Employee List
+                        Sales List
                     </h2>
 
                     <table
@@ -368,15 +387,19 @@ const navigate = useNavigate();
                             >
 
                                 <th style={{ padding: "15px" }}>
-                                    Name
+                                    Customer
                                 </th>
 
                                 <th style={{ padding: "15px" }}>
-                                    Email
+                                    Product
                                 </th>
 
                                 <th style={{ padding: "15px" }}>
-                                    Position
+                                    Quantity
+                                </th>
+
+                                <th style={{ padding: "15px" }}>
+                                    Amount
                                 </th>
 
                                 <th style={{ padding: "15px" }}>
@@ -391,26 +414,30 @@ const navigate = useNavigate();
 
                             {
 
-                                employees.map((employee) => (
+                                sales.map((sale) => (
 
-                                    <tr key={employee._id}>
+                                    <tr key={sale._id}>
 
                                         <td style={{ padding: "15px" }}>
-                                            {employee.name}
+                                            {sale.customerName}
                                         </td>
 
                                         <td style={{ padding: "15px" }}>
-                                            {employee.email}
+                                            {sale.productName}
                                         </td>
 
                                         <td style={{ padding: "15px" }}>
-                                            {employee.position}
+                                            {sale.quantity}
+                                        </td>
+
+                                        <td style={{ padding: "15px" }}>
+                                            ₹{sale.totalAmount}
                                         </td>
 
                                         <td style={{ padding: "15px" }}>
 
                                             <button
-                                                onClick={() => deleteEmployee(employee._id)}
+                                                onClick={() => deleteSale(sale._id)}
                                                 style={{
                                                     backgroundColor: "#ff4d94",
                                                     color: "white",
@@ -445,4 +472,4 @@ const navigate = useNavigate();
 
 }
 
-export default Employees;
+export default Sales;

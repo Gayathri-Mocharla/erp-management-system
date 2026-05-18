@@ -9,7 +9,8 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Employees from "./pages/Employees";
 import Inventory from "./pages/Inventory";
-
+import Sales from "./pages/Sales";
+import Reports from "./pages/Reports";
 function App() {
 
   return (
@@ -42,8 +43,17 @@ function App() {
           path="/inventory"
           element={<Inventory />}
         />
-
+        <Route
+    path="/sales"
+    element={<Sales />}
+/>
+        <Route
+    path="/reports"
+    element={<Reports />}
+/>
       </Routes>
+
+      
 
     </BrowserRouter>
 

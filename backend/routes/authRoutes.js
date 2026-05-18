@@ -9,20 +9,24 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 
-// REGISTER
+// SIGNUP
 
-router.post("/register", async (req, res) => {
+router.post("/signup", async (req, res) => {
 
     try {
 
-        const { name, email, password } = req.body;
+        const { username, email, password } = req.body;
+
+        console.log(req.body);
 
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
 
             return res.status(400).json({
+
                 message: "User already exists"
+
             });
 
         }
@@ -31,7 +35,7 @@ router.post("/register", async (req, res) => {
 
         const newUser = new User({
 
-            name,
+            username,
             email,
             password: hashedPassword
 
@@ -40,18 +44,26 @@ router.post("/register", async (req, res) => {
         await newUser.save();
 
         res.status(201).json({
-            message: "User Registered Successfully"
+
+            message: "Signup Successful"
+
         });
 
     }
 
     catch (error) {
 
-        res.status(500).json({
-            error: error.message
-        });
+    console.log("FULL ERROR:");
 
-    }
+    console.log(error);
+
+    res.status(500).json({
+
+        message: error.message
+
+    });
+
+}
 
 });
 
@@ -69,12 +81,15 @@ router.post("/login", async (req, res) => {
         if (!user) {
 
             return res.status(400).json({
+
                 message: "User not found"
+
             });
 
         }
 
         const isMatch = await bcrypt.compare(
+
             password,
             user.password
         );
@@ -82,28 +97,21 @@ router.post("/login", async (req, res) => {
         if (!isMatch) {
 
             return res.status(400).json({
+
                 message: "Invalid password"
+
             });
 
         }
 
         const token = jwt.sign(
 
-            {
-                id: user._id
-            },
+            { id: user._id },
 
-            process.env.JWT_SECRET,
-
-            {
-                expiresIn: "1d"
-            }
-
+            "secretkey"
         );
 
         res.status(200).json({
-
-            message: "Login Successful",
 
             token
 
@@ -116,7 +124,9 @@ router.post("/login", async (req, res) => {
         console.log(error);
 
         res.status(500).json({
-            error: error.message
+
+            message: "Login Failed"
+
         });
 
     }
